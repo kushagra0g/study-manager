@@ -11,6 +11,7 @@ def main():
                           text=subject[0],
                           text_color="#000814",
                           fg_color="#FFC300",
+                          hover_color="#CEAD3F",
                           font=("Bahnschrift", 17),
                           command=lambda name=subject: show_tasks_for_subject(name))
             b.pack(padx=30, pady=10)
@@ -18,6 +19,7 @@ def main():
         CTkButton(master=subject_frame,
                   text="New Subject",
                   font=("Bahnschrift", 17),
+                  hover_color="#343a40",
                   fg_color="#000814",
                   command=add_subject_button_handler).pack(padx=10, pady=40,
                                                            side="bottom")
@@ -61,7 +63,9 @@ def main():
         entry = CTkEntry(master=task_frame,
                          placeholder_text="Enter New subject name",
                          border_color="#FFC300",
-                         font=("Bahnschrift", 11))
+                         width=250,
+                         height=30,
+                         font=("Bahnschrift", 15))
         entry.pack(padx=20, pady=20)
         CTkButton(master=task_frame,
                   text="Add Subject",
@@ -78,9 +82,9 @@ def main():
     app.geometry("700x500")
 
     # Configuring grids for easier placement,
-    app.grid_columnconfigure(0, weight=1)
+    app.grid_columnconfigure(0, weight=0)
+    app.grid_columnconfigure(1, weight=1)
     app.grid_rowconfigure(0, weight=1)
-    app.grid_columnconfigure(2, weight=1)
 
     # Setting up Subjects frame
     subject_frame = CTkScrollableFrame(master=app,
@@ -93,7 +97,7 @@ def main():
     # Setup of tasks frame
     task_frame = CTkFrame(master=app,
                           fg_color="#001D3D")
-    task_frame.grid(row=0, column=2, padx=20, pady=20, sticky="nsew")
+    task_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
 
     render_subject_frame()
 
