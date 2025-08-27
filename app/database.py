@@ -41,14 +41,16 @@ def add_subject(subject:str):
     # Establishing a connection with the database file
     folder_path = initialize_files()
     database = folder_path + r"\user.db"
-    with sqlite3.connect(database) as connection:
+    try:
+        with sqlite3.connect(database) as connection:
+            # Creating the cursor
+            cursor = connection.cursor()
 
-        # Creating the cursor
-        cursor = connection.cursor()
-
-        # Adding the subject
-        cursor.execute("""INSERT INTO subjects (subject_name)
-        VALUES(?)""", (subject, ))
+            # Adding the subject
+            cursor.execute("""INSERT INTO subjects (subject_name)
+            VALUES(?)""", (subject, ))
+    except sqlite3.IntegrityError:
+        print("subject already exists")
 
 def add_task(task_name:str, task_description:str, due_date:str, subject:str):
     # Establishing a connection with the database file
@@ -65,7 +67,7 @@ def add_task(task_name:str, task_description:str, due_date:str, subject:str):
 
             result = cursor.fetchone()
             if result is None:
-                raise "Subject is invalid"
+                return []
             subject_id = result[0]
 
 
